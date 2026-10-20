@@ -16,7 +16,7 @@ enum rarity {
 }
 
 enum mob {
-    case Spiders, GiantSpider, Troll, GroupOfGoblin, Orcs, Dragons
+    case Spiders, GiantSpiders, Trolls, GroupOfGoblins, Orcs, BabyDragons, Rats
 }
 
 enum type {
@@ -29,6 +29,7 @@ struct mobs {
     var attack: Int
     var defense: Int
     var speed: Int
+    let StartAtFloor: Int
     
 }
 
@@ -69,22 +70,22 @@ if player.classes == "Magician" {
     player.health += 15
     player.attack += 30
     player.defense += 50
-    player.speed += 25
+    player.speed += 20
 }
 
 else if player.classes == "Man" {
     print("🧍🏼‍♂️")
     player.attack += 30
     player.defense += 20
-    player.speed += 25
+    player.speed += 20
 }
 
 else if player.classes == "Hobbit" {
     print("👨🏻‍🌾")
     player.health -= 20
-    player.attack += 10
+    player.attack += 20
     player.defense += 40
-    player.speed += 80
+    player.speed += 50
 }
 
 else if player.classes == "Elves" {
@@ -92,7 +93,7 @@ else if player.classes == "Elves" {
     player.health += 100
     player.attack += 40
     player.defense += 20
-    player.speed += 50
+    player.speed += 35
     
 }
 
@@ -110,10 +111,14 @@ print("""
     Let me just explain what you will find, there is mobs at each floor and every 5 floors there is a boss: he gives better loots but need more preparation. 
     Everytime a fight arrive, you can try to run (it's more difficult when there is a lot of mobs) or try to kill the mobs. Every mob you kill give you xp that give you better stats!
     """)
+
 sleep(10)
+
 let h = input("Are you ready?: ")
 print("Let's Go to the dungeons!")
+
 sleep(2)
+
 // -------- xp part, scroll to the other comment for next part --------
 
 var xpCap = Double(100)
@@ -130,10 +135,27 @@ func XP () {
 
 // -------- end of xp part --------
 
+// -------- mob part -------
+
+var spider = mobs(type: mob.Spiders, health: 40, attack: 30, defense: 15, speed: 50, StartAtFloor: 2)
+var giantSpider = mobs(type: mob.GiantSpiders, health: 90, attack: 130, defense: 100, speed: 40, StartAtFloor: 13)
+var rat = mobs(type: mob.Rats, health: 30, attack: 20, defense: 5, speed: 70, StartAtFloor: 1)
+var troll = mobs(type: mob.Trolls, health: 130, attack: 200, defense: 150, speed: 20, StartAtFloor: 18)
+var groupOfGoblin = mobs(type: mob.GroupOfGoblins, health: 60, attack: 60, defense: 40, speed: 40, StartAtFloor: 5)
+var orc = mobs(type: mob.Orcs, health: 65, attack: 85, defense: 20, speed: 30, StartAtFloor: 8)
+var babyDragon = mobs(type: mob.BabyDragons, health: 250, attack: 400, defense: 300, speed: 25, StartAtFloor: 25)
+
+// -------- end mob part -------
+
+
 // -------- Dungeons part --------
 print("I forgot, when you fights you can make choice, every choice is represented by a letter (i.e: [1] Run to escape the fight), you have to just put the number, in this case 1, not the whole sentence")
 
 var actualFloor = 1
+
+func MechantMob (_ Floor: Int, _ NbTour: Int) {
+    
+    }
 
 func NewFloor (_ Flevel: Int) {
     
@@ -150,6 +172,20 @@ func NewFloor (_ Flevel: Int) {
 }
 
 func Floor (_ Flevels: Int) {
+    var tour = Int.random(in: 2...5)
+    if Flevels >= 10 {
+        tour = Int.random(in: 4...10)
+        print("The range for the number of combat per floor UPGRADE, now it's between 4...10")
+    }
+    if Flevels >= 25 {
+        tour = Int.random(in: 12...20)
+        print("The range for the number of combat per floor UPGRADE, now it's between 12...20")
+    }
+    if Flevels >= 50 {
+        tour = Int.random(in: 25...100)
+        print("The range for the number of combat per floor UPGRADE, now it's between 25...100, this is the last upgrade")
+    }
+    MechantMob(Flevels, tour)
     endFloor()
 }
 
